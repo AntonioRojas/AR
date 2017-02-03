@@ -3,6 +3,7 @@
   <groupId>CrunchifyRESTJerseyExample</groupId>
   <artifactId>CrunchifyRESTJerseyExample</artifactId>
   <version>0.1</version>
+  <name>CrunchifyRESTJerseyExample</name>
   <packaging>war</packaging>
   <build>
     <sourceDirectory>src</sourceDirectory>
