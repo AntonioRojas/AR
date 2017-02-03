@@ -21,7 +21,6 @@
         <configuration>
           <warSourceDirectory>WebContent</warSourceDirectory>
           <failOnMissingWebXml>false</failOnMissingWebXml>
-          <outputDirectory>/var/lib/tomcat7/webapps/</outputDirectory>
         </configuration>
       </plugin>
     </plugins>
