@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>CrunchifyRESTJerseyExample</groupId>
   <artifactId>CrunchifyRESTJerseyExample</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.1</version>
   <packaging>war</packaging>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -21,6 +21,7 @@
         <configuration>
           <warSourceDirectory>WebContent</warSourceDirectory>
           <failOnMissingWebXml>false</failOnMissingWebXml>
+          <outputDirectory>/var/lib/tomcat7/webapps/</outputDirectory>
         </configuration>
       </plugin>
     </plugins>
@@ -51,5 +52,15 @@
   		<artifactId>jersey-core</artifactId>
   		<version>1.19</version>
   	</dependency>
+  	<dependency>
+  		<groupId>org.apache.httpcomponents</groupId>
+  		<artifactId>httpclient</artifactId>
+  		<version>4.5.3</version>
+	</dependency>
+	<dependency>
+    	<groupId>junit</groupId>
+    	<artifactId>junit</artifactId>
+    	<version>4.12</version>
+	</dependency>
   </dependencies>
 </project>
