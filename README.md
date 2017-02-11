@@ -15,7 +15,7 @@ Now you want to compile your Java sources. For this switch on the command line i
 
 $ mvn compile
 
-$ mvn package
+$ mvn package test
 
 Copy war file to Tomcat web directory
 
