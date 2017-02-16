@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.9">
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>5</daysToKeep>
+        <numToKeep>5</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.25.1">
+      <projectUrl>https://github.com/devopsteam01/AR.git/</projectUrl>
+      <displayName></displayName>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <com.cloudbees.plugins.credentials.CredentialsParameterDefinition plugin="credentials@2.1.11">
+          <name>tomcat</name>
+          <description></description>
+          <defaultValue>0475551e-b0c8-47d2-b58e-869813d5d06a</defaultValue>
+          <credentialType>com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl</credentialType>
+          <required>false</required>
+        </com.cloudbees.plugins.credentials.CredentialsParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>tomcatURL</name>
+          <description></description>
+          <defaultValue>localhost:8080</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.25.1">
+          <spec></spec>
+        </com.cloudbees.jenkins.GitHubPushTrigger>
+        <hudson.triggers.SCMTrigger>
+          <spec>* * * * *</spec>
+          <ignorePostCommitHooks>false</ignorePostCommitHooks>
+        </hudson.triggers.SCMTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.26">
+    <script>pipeline 
+{
+    agent any // &lt;1&gt;
+
+    stages 
+	{
+        stage(&apos;Checkout&apos;) {
+            steps {
+                //Clean resources
+                step([$class: &apos;WsCleanup&apos;])
+                //Clone from github
+                checkout([$class: &apos;GitSCM&apos;, branches: [[name: &apos;*/master&apos;]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: &apos;CleanBeforeCheckout&apos;]], submoduleCfg: [], userRemoteConfigs: [[url: &apos;https://github.com/devopsteam01/AR&apos;]]])
+            }
+        }
+        stage(&apos;SonarQube Analysis&apos;) {
+            steps{
+                dir(&quot;CrunchifyRESTJerseyExample&quot;){
+                    // requires SonarQube Scanner 2.8+
+                    withSonarQubeEnv(&apos;MySonarQubeServer&apos;) {
+                        bat &quot;C:\\sonarqube-6.2\\sonar-scanner-2.8\\bin\\sonar-scanner.bat&quot;
+                    }
+                }
+            }
+        }
+        stage(&apos;Unit Test&apos;){
+            steps{
+                // Run the maven build
+                dir(&quot;CrunchifyRESTJerseyExample&quot;){
+                    sh &quot;mvn clean test&quot;
+                    sh &apos;sleep 20&apos;
+				    step([$class: &apos;Publisher&apos;, reportFilenamePattern: &apos;target/surefire-reports/testng-results.xml&apos;])
+                }
+            }
+        }
+        stage(&apos;Package App&apos;){
+            steps{
+                // Run the maven build
+                dir(&quot;CrunchifyRESTJerseyExample&quot;){
+                    sh &quot;mvn package&quot;
+                }
+            }
+        }
+        stage(&apos;Deploy App&apos;){
+            steps{
+                withCredentials([[$class: &apos;UsernamePasswordMultiBinding&apos;, credentialsId: &apos;0475551e-b0c8-47d2-b58e-869813d5d06a&apos;,
+                    usernameVariable: &apos;USERNAME&apos;, passwordVariable: &apos;PASSWORD&apos;]]){
+					dir(&quot;CrunchifyRESTJerseyExample/target&quot;){
+						sh &quot;curl --upload-file CrunchifyRESTJerseyExample-0.1.war \&quot;http://$USERNAME:$PASSWORD@${env.tomcatURL}/manager/text/deploy?path=/CrunchifyRESTJerseyExample&amp;update=true\&quot;&quot;
+					}	
+				}
+            }
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+</flow-definition>
