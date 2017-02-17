@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Property file for DevOps</comment>
+<entry key="project">Celsiuos to F</entry> <!-- project name to use on reports -->
+<entry key="environment">Production</entry> <!-- environment used -->
+<entry key="tomcat.url">http://localhost</entry>
+<entry key="tomcat.port">8080</entry>
+</properties>
