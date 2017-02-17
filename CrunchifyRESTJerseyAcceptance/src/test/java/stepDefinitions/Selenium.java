@@ -10,9 +10,10 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import utilitiesAcceptance.ReadConfigFile;
+
 
 
 public class Selenium {
@@ -21,8 +22,8 @@ public class Selenium {
 	private String tomcatURL = ReadConfigFile.getTCATURL() + ":" + ReadConfigFile.getTCATPORT();
 	
 	public Selenium(){
-		System.setProperty("webdriver.gecko.driver","C:\\Ruby23-x64\\bin\\geckodriver.exe");
-		driver = new FirefoxDriver();
+		System.setProperty("webdriver.chrome.driver","C:\\Ruby23-x64\\bin\\chromedriver.exe");
+		driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		
 	}
