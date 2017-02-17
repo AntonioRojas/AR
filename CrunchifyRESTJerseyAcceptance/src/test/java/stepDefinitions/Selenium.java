@@ -12,7 +12,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import utilities.ReadConfigurationFile;
+import utilitiesAcceptance.ReadConfigurationFile;
+
 
 public class Selenium {
 	final static Logger logger = Logger.getLogger(Selenium.class);
@@ -20,7 +21,6 @@ public class Selenium {
 	private String tomcatURL = ReadConfigurationFile.getTCATURL() + ":" + ReadConfigurationFile.getTCATPORT();
 	
 	public Selenium(){
-		System.setProperty("webdriver.gecko.driver","extraResources\\geckodriver.exe");
 		driver = new FirefoxDriver();
 		driver.manage().window().maximize();
 		
