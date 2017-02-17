@@ -15,8 +15,8 @@ import org.apache.log4j.Logger;
  * 
  */
 
-public class ReadConfigurationFile {
-    private static final Logger logger = Logger.getLogger(ReadConfigurationFile.class.getName());
+public class ReadConfigFile {
+    private static final Logger logger = Logger.getLogger(ReadConfigFile.class.getName());
     private final static String configFile = "config/properties.xml";
     private static String TCATURL = init().getProperty("tomcat.url");
     private static String TCATPORT = init().getProperty("tomcat.port");

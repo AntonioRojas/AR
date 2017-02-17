@@ -12,15 +12,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import utilitiesAcceptance.ReadConfigurationFile;
+import utilitiesAcceptance.ReadConfigFile;
 
 
 public class Selenium {
 	final static Logger logger = Logger.getLogger(Selenium.class);
 	static WebDriver driver;
-	private String tomcatURL = ReadConfigurationFile.getTCATURL() + ":" + ReadConfigurationFile.getTCATPORT();
+	private String tomcatURL = ReadConfigFile.getTCATURL() + ":" + ReadConfigFile.getTCATPORT();
 	
 	public Selenium(){
+		System.setProperty("webdriver.gecko.driver","C:\\Ruby23-x64\\bin\\geckodriver.exe");
 		driver = new FirefoxDriver();
 		driver.manage().window().maximize();
 		

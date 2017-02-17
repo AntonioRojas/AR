@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import utilitiesAcceptance.ReadConfigurationFile;
+import utilitiesAcceptance.ReadConfigFile;
 
 
 /**
@@ -23,7 +23,7 @@ import utilitiesAcceptance.ReadConfigurationFile;
  */
 public class restIntegrationTest {
 	final static Logger logger = Logger.getLogger(restIntegrationTest.class);
-	private String tomcatURL = ReadConfigurationFile.getTCATURL() + ":" + ReadConfigurationFile.getTCATPORT();
+	private String tomcatURL = ReadConfigFile.getTCATURL() + ":" + ReadConfigFile.getTCATPORT();
 
     @Test
     public void testGetProducts() throws IOException{
